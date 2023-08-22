@@ -12,17 +12,19 @@ if __name__ == "__main__":
 
     empId = sys.argv[1]
 
-    info = json.loads(request.urlopen(
-        f"https://jsonplaceholder.typicode.com/users/{empId}").read())
+    url = request.urlopen(
+        "https://jsonplaceholder.typicode.com/users/{}".format(empId))
 
-    tasks = json.loads(request.urlopen(
-        f"https://jsonplaceholder.typicode.com/todos").read())
+    info = json.loads(url.read().decode("utf-8"))
 
-    user = [task for task in tasks if task["userId"] == int(empId)]
-    completed = [task for task in user if task["completed"]]
-    countAll, count = len(user), len(completed)
+    url_task = request.urlopen(
+        "https://jsonplaceholder.typicode.com/todos?userId={}".format(empId))
+    tasks = json.loads(url_task.read().decode("utf-8"))
 
-    print(f"Employee {info['name']} is done with tasks ({count}/{countAll}):")
+    completed = [task for task in tasks if task["completed"]]
+
+    print("Employee {} is done with tasks ({}/{}):".
+          format(info["name"], len(completed), len(tasks)))
     title = [task["title"] for task in completed]
     for text in title:
-        print(f"\t {text}")
+        print("\t {}".format(text))
