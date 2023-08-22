@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-    This a Python script thatfor a given employee ID, returns information about
+    This a Python script that for a given employee ID, returns information about
         his/her TODO list progress.
 """
 
@@ -21,7 +21,7 @@ if __name__ == "__main__":
         "https://jsonplaceholder.typicode.com/todos?userId={}".format(empId))
     tasks = json.loads(url_task.read().decode("utf-8"))
 
-    completed = [task for task in tasks if task["completed"]]
+    completed = list(filter(lambda task: task["completed"], tasks))
 
     print("Employee {} is done with tasks({}/{}):".
           format(info["name"], len(completed), len(tasks)))
