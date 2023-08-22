@@ -1,25 +1,23 @@
 #!/usr/bin/python3
 """
-    This a Python script that for a given employee ID, returns information about
-        his/her TODO list progress.
+    This a Python script that for a given employee ID
+      returns information about his/her TODO list progress.
 """
 
 
 if __name__ == "__main__":
-    import json
     import sys
-    from urllib import request
+    import requests
 
     empId = sys.argv[1]
 
-    url = request.urlopen(
-        "https://jsonplaceholder.typicode.com/users/{}".format(empId))
+    info = requests.get(
+        "https://jsonplaceholder.typicode.com/users/{}".
+        format(empId)).json()
 
-    info = json.loads(url.read().decode("utf-8"))
-
-    url_task = request.urlopen(
-        "https://jsonplaceholder.typicode.com/todos?userId={}".format(empId))
-    tasks = json.loads(url_task.read().decode("utf-8"))
+    tasks = requests.get(
+        "https://jsonplaceholder.typicode.com/todos?userId={}".
+        format(empId)).json()
 
     completed = list(filter(lambda task: task["completed"], tasks))
 
