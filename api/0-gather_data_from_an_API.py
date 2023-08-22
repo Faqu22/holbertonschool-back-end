@@ -23,7 +23,7 @@ tasks = json.loads(url_task.read().decode("utf-8"))
 completed = [task for task in tasks if task["completed"]]
 
 print("Employee {} is done with tasks ({}/{}):".
-        format(info["name"], len(completed), len(tasks)))
+      format(info["name"], len(completed), len(tasks)))
 title = [task["title"] for task in completed]
 for text in title:
     print("\t {}".format(text))
